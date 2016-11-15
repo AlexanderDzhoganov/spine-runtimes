@@ -109,4 +109,6 @@ spine-ue4/Binaries/
 spine-ue4/Intermediate/
 spine-ue4/Saved/
 spine-ue4/*.xcworkspace
-spine-ue4/Plugins/SpinePlugin/Source/SpinePlugin/Public/spine-c/
+spine-ue4/Plugins/SpinePlugin/Source/SpinePlugin/Public/spine-c
+spine-ue4/Plugins/SpinePlugin/Binaries/
+spine-ue4/Plugins/SpinePlugin/Intermediate/
