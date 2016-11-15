@@ -1,9 +1,0 @@
-{
-	"Changelist" : 3172292,
-	"BuildId" : "49125838-1251-47ea-9c19-a7be5a2b39ef",
-	"Modules" : 
-	{
-		"SpinePlugin" : "UE4Editor-SpinePlugin.dylib",
-		"SpineEditorPlugin" : "UE4Editor-SpineEditorPlugin.dylib"
-	}
-}
