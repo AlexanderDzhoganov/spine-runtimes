@@ -1,5 +1,4 @@
-# spine-sfml
-
+# spine-ue4
 The spine-ue4 runtime provides functionality to load, manipulate and render [Spine](http://esotericsoftware.com) skeletal animation data using [Unreal Engine 4](https://www.unrealengine.com/). spine-ue4 is based on [spine-c](https://github.com/EsotericSoftware/spine-runtimes/tree/master/spine-c).
 
 ## Licensing
@@ -24,7 +23,7 @@ spine-ue4 supports all Spine features.
 See the [Spine Runtimes documentation](http://esotericsoftware.com/spine-documentation#runtimesTitle) on how to use the APIs or check out the Spine UE4 example.
 
 ## Example
-The Spine SFML example works on all platforms supported by Unreal Engine.
+The Spine UE4 example works on all platforms supported by Unreal Engine.
 
 1. Copy the `spine-c` folder from this repositories root directory to your `Plugins/SpinePlugin/Sources/SpinePlugin/Public/` directory.
 2. Open the SpineUE4.uproject file with Unreal Editor
