@@ -9,7 +9,7 @@
  * The public interface to this module.  In most cases, this interface is only public to sibling modules
  * within this plugin.
  */
-class ISpineEditorPlugin : public IModuleInterface
+class SpinePlugin : public IModuleInterface
 {
 
 public:
@@ -20,9 +20,9 @@ public:
 	 *
 	 * @return Returns singleton instance, loading the module on demand if needed
 	 */
-	static inline ISpineEditorPlugin& Get()
+	static inline SpinePlugin& Get()
 	{
-		return FModuleManager::LoadModuleChecked< ISpineEditorPlugin >( "SpineEditorPlugin" );
+		return FModuleManager::LoadModuleChecked< SpinePlugin >( "SpinePlugin" );
 	}
 
 	/**
@@ -32,7 +32,7 @@ public:
 	 */
 	static inline bool IsAvailable()
 	{
-		return FModuleManager::Get().IsModuleLoaded( "SpineEditorPlugin" );
+		return FModuleManager::Get().IsModuleLoaded( "SpinePlugin" );
 	}
 };
 

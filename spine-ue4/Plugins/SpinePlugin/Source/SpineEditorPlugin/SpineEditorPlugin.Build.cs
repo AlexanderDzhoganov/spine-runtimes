@@ -7,9 +7,26 @@ namespace UnrealBuildTool.Rules
 		public SpineEditorPlugin(TargetInfo Target)
 		{
 			PublicIncludePaths.AddRange(new string[] { "SpineEditorPlugin/Public" });
+            
             PrivateIncludePaths.AddRange(new string[] { "SpineEditorPlugin/Private" });
-            PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine" });
-			PrivateDependencyModuleNames.AddRange(new string[] { "RHI", "RenderCore", "ShaderCore" });
+            
+            PublicDependencyModuleNames.AddRange(new string[] {
+                "Core",
+                "CoreUObject",
+                "Engine",
+                "UnrealEd",
+                "SpinePlugin"
+            });
+            
+            PublicIncludePathModuleNames.AddRange(new string[] {
+               "AssetTools",
+               "AssetRegistry"
+            });
+            
+            DynamicallyLoadedModuleNames.AddRange(new string[] {
+               "AssetTools",
+               "AssetRegistry"
+            });
 		}
 	}
 }
