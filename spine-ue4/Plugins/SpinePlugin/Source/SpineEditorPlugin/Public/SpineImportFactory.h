@@ -2,6 +2,7 @@
 #pragma once
 
 #include "UnrealEd.h"
+#include "SpineAtlasAsset.h"
 #include "SpineImportFactory.generated.h"
 
 UCLASS()
@@ -16,4 +17,6 @@ class USpineAtlasAssetFactory : public UFactory, public FReimportHandler
     virtual bool CanReimport(UObject* Obj, TArray<FString>& OutFilenames) override;
     virtual void SetReimportPaths(UObject* Obj, const TArray<FString>& NewReimportPaths) override;
     virtual EReimportResult::Type Reimport(UObject* Obj) override;
+
+    void LoadAtlas(USpineAtlasAsset* asset, const FString& currentSourcePath, const FString& longPackagePath);
 };

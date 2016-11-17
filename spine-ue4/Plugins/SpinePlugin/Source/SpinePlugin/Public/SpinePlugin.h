@@ -9,7 +9,7 @@
  * The public interface to this module.  In most cases, this interface is only public to sibling modules
  * within this plugin.
  */
-class SpinePlugin : public IModuleInterface
+class SPINEPLUGIN_API SpinePlugin : public IModuleInterface
 {
 
 public:

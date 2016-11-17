@@ -7,6 +7,9 @@
 #include "Developer/DesktopPlatform/Public/IDesktopPlatform.h"
 #include "Developer/DesktopPlatform/Public/DesktopPlatformModule.h"
 #include "spine/spine.h"
+#include <string>
+#include <string.h>
+#include <stdlib.h>
 
 #define LOCTEXT_NAMESPACE "Spine"
 
@@ -32,11 +35,17 @@ UObject* USpineAtlasAssetFactory::FactoryCreateFile (UClass * InClass, UObject *
     if (!FFileHelper::LoadFileToString(rawString, *Filename)) {
         return nullptr;
     }
+    const FString longPackagePath = FPackageName::GetLongPackagePath(InParent->GetOutermost()->GetPathName());
+    FString CurrentSourcePath;
+    FString FilenameNoExtension;
+    FString UnusedExtension;
+    FPaths::Split(UFactory::GetCurrentFilename(), CurrentSourcePath, FilenameNoExtension, UnusedExtension);
     FString name(InName.ToString());
     name.Append("-atlas");
     USpineAtlasAsset* asset = NewObject<USpineAtlasAsset>(InParent, InClass, FName(*name), Flags);
     asset->SetRawData(rawString);
     asset->SetAtlasFileName(FName(*Filename));
+    LoadAtlas(asset, CurrentSourcePath, longPackagePath);
     return asset;
 }
 
@@ -60,9 +69,43 @@ EReimportResult::Type USpineAtlasAssetFactory::Reimport(UObject* Obj) {
     FString rawString;
     if (!FFileHelper::LoadFileToString(rawString, *asset->GetAtlasFileName().ToString())) return EReimportResult::Failed;
     asset->SetRawData(rawString);
+    const FString longPackagePath = FPackageName::GetLongPackagePath(asset->GetOutermost()->GetPathName());
+    FString CurrentSourcePath;
+    FString FilenameNoExtension;
+    FString UnusedExtension;
+    FPaths::Split(UFactory::GetCurrentFilename(), CurrentSourcePath, FilenameNoExtension, UnusedExtension);
+    LoadAtlas(asset, CurrentSourcePath, longPackagePath);
     if (Obj->GetOuter()) Obj->GetOuter()->MarkPackageDirty();
     else Obj->MarkPackageDirty();
     return EReimportResult::Succeeded;
+}
+
+UTexture2D* resolveTexture (USpineAtlasAsset* asset, const FString& pageFileName, const FString& targetSubPath) {
+    FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
+    
+    TArray<FString> fileNames;
+    fileNames.Add(pageFileName);
+    
+    //@TODO: Avoid the first compression, since we're going to recompress
+    TArray<UObject*> importedAsset = AssetToolsModule.Get().ImportAssets(fileNames, targetSubPath);
+    UTexture2D* texture = (importedAsset.Num() > 0) ? Cast<UTexture2D>(importedAsset[0]) : nullptr;
+    
+    return texture;
+}
+
+void USpineAtlasAssetFactory::LoadAtlas(USpineAtlasAsset* asset, const FString& currentSourcePath, const FString& longPackagePath) {
+    spAtlas* atlas = asset->GetAtlas();
+    
+    const FString targetTexturePath = longPackagePath / TEXT("Textures");
+    
+    spAtlasPage* page = atlas->pages;
+    while (page) {
+        const FString sourceTextureFilename = FPaths::Combine(*currentSourcePath, UTF8_TO_TCHAR(page->name));
+        UTexture2D* texture = resolveTexture(asset, sourceTextureFilename, targetTexturePath);
+        page->rendererObject = texture;
+        page = page->next;
+        asset->atlasPages.Add(texture);
+    }
 }
 
 #undef LOCTEXT_NAMESPACE

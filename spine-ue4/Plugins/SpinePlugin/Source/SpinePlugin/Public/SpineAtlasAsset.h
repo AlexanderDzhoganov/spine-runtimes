@@ -1,17 +1,27 @@
 #pragma once
 
 #include "Engine.h"
+#include "spine/spine.h"
 #include "SpineAtlasAsset.generated.h"
 
-UCLASS()
-class USpineAtlasAsset : public UObject {
+UCLASS( ClassGroup=(Spine) )
+class SPINEPLUGIN_API USpineAtlasAsset : public UObject {
     GENERATED_BODY()
     
 public:
+    spAtlas* GetAtlas ();
+    
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
+    TArray<UTexture2D*> atlasPages;
+    
     FString GetRawData () const;
     FName GetAtlasFileName () const;
     
+    virtual void BeginDestroy () override;
+    
 protected:
+    spAtlas* atlas = nullptr;
+    
     UPROPERTY()
     FString rawData;
     
@@ -28,8 +38,8 @@ protected:
     UPROPERTY(VisibleAnywhere, Instanced, Category=ImportSettings)
     class UAssetImportData* importData;
     
-    virtual void PostInitProperties() override;
+    virtual void PostInitProperties ( ) override;
     virtual void GetAssetRegistryTags(TArray<FAssetRegistryTag>& OutTags) const override;
-    virtual void Serialize(FArchive& Ar) override;
+    virtual void Serialize (FArchive& Ar) override;
 #endif
 };
