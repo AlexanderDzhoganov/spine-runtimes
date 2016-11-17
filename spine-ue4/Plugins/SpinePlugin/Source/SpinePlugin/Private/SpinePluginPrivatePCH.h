@@ -6,3 +6,4 @@
 // add includes for headers that are used in most of your module's source files though.
 #include "SpineSkeletonDataAsset.h"
 #include "SpineAtlasAsset.h"
+#include "SpineSkeletonComponent.h"
