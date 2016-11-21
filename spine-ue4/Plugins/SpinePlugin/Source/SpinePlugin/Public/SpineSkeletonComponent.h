@@ -15,6 +15,9 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
     USpineAtlasAsset* atlas;
     
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
+    USpineSkeletonDataAsset* skeletonData;
+    
 	// Sets default values for this component's properties
 	USpineSkeletonComponent();
 
@@ -24,6 +27,8 @@ public:
 	// Called every frame
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
-		
+protected:
+    spAnimationState* state;
+    spSkeleton skeleton;
 	
 };

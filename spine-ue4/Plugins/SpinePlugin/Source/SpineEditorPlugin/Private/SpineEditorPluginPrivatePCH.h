@@ -1,3 +1,4 @@
 #include "SpineEditorPlugin.h"
 #include "SpinePlugin.h"
-#include "SpineImportFactory.h"
+#include "SpineAtlasImportFactory.h"
+#include "SpineSkeletonImportFactory.h"

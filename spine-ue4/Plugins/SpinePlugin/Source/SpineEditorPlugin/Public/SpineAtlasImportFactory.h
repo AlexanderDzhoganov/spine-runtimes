@@ -3,7 +3,7 @@
 
 #include "UnrealEd.h"
 #include "SpineAtlasAsset.h"
-#include "SpineImportFactory.generated.h"
+#include "SpineAtlasImportFactory.generated.h"
 
 UCLASS()
 class USpineAtlasAssetFactory : public UFactory, public FReimportHandler
