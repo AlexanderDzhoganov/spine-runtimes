@@ -77,7 +77,9 @@ spAtlas* USpineAtlasAsset::GetAtlas (bool forceReload) {
         spAtlasPage* page = atlas->pages;
         int i = 0;
         while (page) {
-            page->rendererObject = atlasPages[i];
+            int num = atlasPages.Num();
+            if (atlasPages.Num() > 0 && atlasPages.Num() > i)
+                page->rendererObject = atlasPages[i++];
             page = page->next;
         }
         free((void*)data);
