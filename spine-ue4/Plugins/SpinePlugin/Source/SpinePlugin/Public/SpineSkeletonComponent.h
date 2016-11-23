@@ -18,17 +18,21 @@ public:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
     USpineSkeletonDataAsset* skeletonData;
     
-	// Sets default values for this component's properties
+    void Reload ();
+    	
 	USpineSkeletonComponent();
-
-	// Called when the game starts
-	virtual void BeginPlay() override;
 	
-	// Called every frame
+	virtual void BeginPlay() override;
+		
 	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
 
+#if WITH_EDITOR
+    virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
+#endif
+    
 protected:
+    spAnimationStateData* stateData;
     spAnimationState* state;
-    spSkeleton skeleton;
+    spSkeleton* skeleton;
 	
 };

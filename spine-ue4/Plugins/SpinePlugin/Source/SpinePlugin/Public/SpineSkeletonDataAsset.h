@@ -9,7 +9,7 @@ class SPINEPLUGIN_API USpineSkeletonDataAsset : public UObject {
     GENERATED_BODY()
     
 public:
-    spSkeletonData* GetSkeletonData(spAtlas* atlas);
+    spSkeletonData* GetSkeletonData(spAtlas* atlas, bool forceReload = false);
     
     FName GetSkeletonDataFileName () const;
     TArray<uint8>& GetRawData ();

@@ -31,8 +31,15 @@ bool USpineSkeletonAssetFactory::FactoryCanImport (const FString& filename) {
     return true;
 }
 
-void LoadAtlas (const FString& Filename) {
+void LoadAtlas (const FString& filename, const FString& targetPath) {
     FAssetToolsModule& AssetToolsModule = FModuleManager::GetModuleChecked<FAssetToolsModule>("AssetTools");
+    
+    FString skelFile = filename.Replace(TEXT(".skel"), TEXT(".atlas")).Replace(TEXT(".json"), TEXT(".atlas"));
+    if (!FPaths::FileExists(skelFile)) return;
+    
+    TArray<FString> fileNames;
+    fileNames.Add(skelFile);
+    TArray<UObject*> importedAssets = AssetToolsModule.Get().ImportAssets(fileNames, targetPath);
 }
 
 UObject* USpineSkeletonAssetFactory::FactoryCreateFile (UClass * InClass, UObject * InParent, FName InName, EObjectFlags Flags, const FString & Filename, const TCHAR* Parms, FFeedbackContext * Warn, bool& bOutOperationCanceled) {
@@ -43,7 +50,8 @@ UObject* USpineSkeletonAssetFactory::FactoryCreateFile (UClass * InClass, UObjec
         return nullptr;
     }
     asset->SetSkeletonDataFileName(FName(*Filename));
-    LoadAtlas(Filename));
+    const FString longPackagePath = FPackageName::GetLongPackagePath(asset->GetOutermost()->GetPathName());
+    LoadAtlas(Filename, longPackagePath);
     return asset;
 }
 
@@ -66,7 +74,8 @@ EReimportResult::Type USpineSkeletonAssetFactory::Reimport(UObject* Obj) {
     USpineSkeletonDataAsset* asset = Cast<USpineSkeletonDataAsset>(Obj);
     FString rawString;
     if (!FFileHelper::LoadFileToArray(asset->GetRawData(), *asset->GetSkeletonDataFileName().ToString(), 0)) return EReimportResult::Failed;
-    LoadAtlas(*asset->GetSkeletonDataFileName().ToString()));
+    const FString longPackagePath = FPackageName::GetLongPackagePath(asset->GetOutermost()->GetPathName());
+    LoadAtlas(*asset->GetSkeletonDataFileName().ToString(), longPackagePath);
     if (Obj->GetOuter()) Obj->GetOuter()->MarkPackageDirty();
     else Obj->MarkPackageDirty();
     return EReimportResult::Succeeded;

@@ -29,7 +29,7 @@ void USpineAtlasAsset::SetAtlasFileName (const FName &_atlasFileName) {
     importData->UpdateFilenameOnly(_atlasFileName.ToString());
     TArray<FString> files;
     importData->ExtractFilenames(files);
-    if (files.Num() > 0) this->atlasFileName = FName(*files[0]);
+    if (files.Num() > 0) atlasFileName = FName(*files[0]);
 }
 
 void USpineAtlasAsset::PostInitProperties () {
@@ -52,9 +52,9 @@ void USpineAtlasAsset::Serialize (FArchive& Ar) {
 }
 
 void USpineAtlasAsset::BeginDestroy () {
-    if (this->atlas) {
-        spAtlas_dispose(this->atlas);
-        this->atlas = nullptr;
+    if (atlas) {
+        spAtlas_dispose(atlas);
+        atlas = nullptr;
     }
     Super::BeginDestroy();
 }
@@ -66,10 +66,20 @@ const char* convertToChar(FString str) {
     return c;
 }
 
-spAtlas* USpineAtlasAsset::GetAtlas () {
-    if (!this->atlas) {
-        const char* data = convertToChar(this->rawData);
-        this->atlas = spAtlas_create(data, strlen(data), "", nullptr);
+spAtlas* USpineAtlasAsset::GetAtlas (bool forceReload) {
+    if (!atlas || forceReload) {
+        if (atlas) {
+            spAtlas_dispose(atlas);
+            atlas = nullptr;
+        }
+        const char* data = convertToChar(rawData);
+        atlas = spAtlas_create(data, strlen(data), "", nullptr);
+        spAtlasPage* page = atlas->pages;
+        int i = 0;
+        while (page) {
+            page->rendererObject = atlasPages[i];
+            page = page->next;
+        }
         free((void*)data);
     }
     return this->atlas;

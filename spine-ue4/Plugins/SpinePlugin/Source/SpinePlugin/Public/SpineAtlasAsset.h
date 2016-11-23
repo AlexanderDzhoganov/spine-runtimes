@@ -9,7 +9,7 @@ class SPINEPLUGIN_API USpineAtlasAsset : public UObject {
     GENERATED_BODY()
     
 public:
-    spAtlas* GetAtlas ();
+    spAtlas* GetAtlas (bool forceReload = false);
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
     TArray<UTexture2D*> atlasPages;

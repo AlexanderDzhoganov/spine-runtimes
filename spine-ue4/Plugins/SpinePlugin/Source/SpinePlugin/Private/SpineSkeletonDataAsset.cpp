@@ -55,18 +55,13 @@ void USpineSkeletonDataAsset::BeginDestroy () {
     Super::BeginDestroy();
 }
 
-spSkeletonData* USpineSkeletonDataAsset::GetSkeletonData (spAtlas* atlas) {
-    if (this->lastAtlas != atlas) {
-        if (this->lastAtlas) spAtlas_dispose(this->lastAtlas);
-        this->lastAtlas = nullptr;
-        if (this->skeletonData) {
-            spSkeletonData_dispose(this->skeletonData);
-            this->skeletonData = nullptr;
+spSkeletonData* USpineSkeletonDataAsset::GetSkeletonData (spAtlas* atlas, bool forceReload) {
+    if (!skeletonData || forceReload) {
+        if (skeletonData) {
+            spSkeletonData_dispose(skeletonData);
+            skeletonData = nullptr;
         }
-    }
-    
-    if (!this->skeletonData) {
-        int dataLen = this->rawData.Num();
+        int dataLen = rawData.Num();
         if (skeletonDataFileName.GetPlainNameString().Contains(TEXT(".json"))) {
             spSkeletonJson* json = spSkeletonJson_create(atlas);
             this->skeletonData = spSkeletonJson_readSkeletonData(json, (const char*)rawData.GetData());

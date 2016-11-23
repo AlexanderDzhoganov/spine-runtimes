@@ -94,7 +94,7 @@ UTexture2D* resolveTexture (USpineAtlasAsset* asset, const FString& pageFileName
 }
 
 void USpineAtlasAssetFactory::LoadAtlas(USpineAtlasAsset* asset, const FString& currentSourcePath, const FString& longPackagePath) {
-    spAtlas* atlas = asset->GetAtlas();
+    spAtlas* atlas = asset->GetAtlas(true);
     asset->atlasPages.Empty();
     
     const FString targetTexturePath = longPackagePath / TEXT("Textures");
@@ -103,7 +103,6 @@ void USpineAtlasAssetFactory::LoadAtlas(USpineAtlasAsset* asset, const FString& 
     while (page) {
         const FString sourceTextureFilename = FPaths::Combine(*currentSourcePath, UTF8_TO_TCHAR(page->name));
         UTexture2D* texture = resolveTexture(asset, sourceTextureFilename, targetTexturePath);
-        page->rendererObject = texture;
         page = page->next;
         asset->atlasPages.Add(texture);
     }
