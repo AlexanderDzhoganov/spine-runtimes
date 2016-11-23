@@ -9,16 +9,19 @@
 
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
-class SPINEPLUGIN_API USpineSkeletonRendererComponent : public UActorComponent
+class SPINEPLUGIN_API USpineSkeletonRendererComponent : public UProceduralMeshComponent
 {
 	GENERATED_BODY()
 
 public:	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
+	TSubclassOf<USpineSkeletonComponent> SkeletonComponentType;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
 	USpineSkeletonComponent* skeleton;
 
 	// Sets default values for this component's properties
-	USpineSkeletonRendererComponent();
+	USpineSkeletonRendererComponent(const FObjectInitializer& ObjectInitializer);
 
 	// Called when the game starts
 	virtual void BeginPlay() override;
