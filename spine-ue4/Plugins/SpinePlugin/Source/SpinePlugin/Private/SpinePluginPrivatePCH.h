@@ -7,3 +7,4 @@
 #include "SpineSkeletonDataAsset.h"
 #include "SpineAtlasAsset.h"
 #include "SpineSkeletonComponent.h"
+#include "SpineSkeletonRendererComponent.h"

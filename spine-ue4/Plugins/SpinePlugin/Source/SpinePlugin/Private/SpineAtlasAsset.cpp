@@ -59,21 +59,14 @@ void USpineAtlasAsset::BeginDestroy () {
     Super::BeginDestroy();
 }
 
-const char* convertToChar(FString str) {
-    std::string t = TCHAR_TO_UTF8(*str);
-    char * c = (char *)malloc(sizeof(char) * (t.length() + 1));
-    strncpy(c, t.c_str(), t.length());
-    return c;
-}
-
 spAtlas* USpineAtlasAsset::GetAtlas (bool forceReload) {
     if (!atlas || forceReload) {
         if (atlas) {
             spAtlas_dispose(atlas);
             atlas = nullptr;
         }
-        const char* data = convertToChar(rawData);
-        atlas = spAtlas_create(data, strlen(data), "", nullptr);
+		std::string t = TCHAR_TO_UTF8(*rawData);
+        atlas = spAtlas_create(t.c_str(), strlen(t.c_str()), "", nullptr);
         spAtlasPage* page = atlas->pages;
         int i = 0;
         while (page) {
@@ -81,8 +74,7 @@ spAtlas* USpineAtlasAsset::GetAtlas (bool forceReload) {
             if (atlasPages.Num() > 0 && atlasPages.Num() > i)
                 page->rendererObject = atlasPages[i++];
             page = page->next;
-        }
-        free((void*)data);
+        }        
     }
     return this->atlas;
 }
