@@ -13,10 +13,7 @@ class SPINEPLUGIN_API USpineSkeletonRendererComponent : public UProceduralMeshCo
 {
 	GENERATED_BODY()
 
-public:	
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
-	TSubclassOf<USpineSkeletonComponent> SkeletonComponentType;
-
+public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
 	USpineSkeletonComponent* skeleton;
 

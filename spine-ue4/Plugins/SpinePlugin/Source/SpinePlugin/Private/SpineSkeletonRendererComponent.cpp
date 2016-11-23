@@ -10,7 +10,7 @@ USpineSkeletonRendererComponent::USpineSkeletonRendererComponent(const FObjectIn
 	// off to improve performance if you don't need them.
 	bWantsBeginPlay = true;
 	PrimaryComponentTick.bCanEverTick = true;
-	ObjectInitializer.CreateDefaultSubobject(skeleton, TEXT("Skeleton"), USpineSkeletonComponent::StaticClass(), SkeletonComponentType, false, false, false);
+	skeleton = ObjectInitializer.CreateDefaultSubobject<USpineSkeletonComponent>(this, FName(TEXT("skeleton")));
 	// ...
 }
 
