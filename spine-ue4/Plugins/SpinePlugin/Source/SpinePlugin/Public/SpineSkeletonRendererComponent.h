@@ -14,13 +14,14 @@ class SPINEPLUGIN_API USpineSkeletonRendererComponent : public UProceduralMeshCo
 	GENERATED_BODY()
 
 public:	
-	USpineSkeletonRendererComponent(const FObjectInitializer& ObjectInitializer);
+	USpineSkeletonRendererComponent (const FObjectInitializer& ObjectInitializer);
 	
-	virtual void BeginPlay() override;
+	virtual void BeginPlay () override;
 		
-	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;	
+	virtual void TickComponent (float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;	
 
 protected:
-	UPROPERTY()
-	USpineSkeletonComponent* skeleton;
+	void UpdateMesh (spSkeleton* skeleton);
+
+	bool updated;
 };

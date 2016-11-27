@@ -7,7 +7,7 @@ public class SpineUE4Target : TargetRules
 {
 	public SpineUE4Target(TargetInfo Target)
 	{
-		Type = TargetType.Game;
+		Type = TargetType.Game;		
 	}
 
 	//
@@ -20,6 +20,6 @@ public class SpineUE4Target : TargetRules
 		ref List<string> OutExtraModuleNames
 		)
 	{
-		OutExtraModuleNames.AddRange( new string[] { "SpineUE4" } );
+		OutExtraModuleNames.AddRange( new string[] { "SpineUE4" } );		
 	}
 }

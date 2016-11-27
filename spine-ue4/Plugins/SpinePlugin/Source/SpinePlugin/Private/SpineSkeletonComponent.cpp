@@ -28,10 +28,17 @@ void USpineSkeletonComponent::TickComponent( float DeltaTime, ELevelTick TickTyp
 			skeleton = spSkeleton_create(data);
 			stateData = spAnimationStateData_create(data);
 			state = spAnimationState_create(stateData);
+			spAnimationState_setAnimationByName(state, 0, "walk", true);
 		}
 
 		lastAtlas = atlas;
 		lastData = skeletonData;
+	}
+
+	if (state) {
+		spAnimationState_update(state, DeltaTime);
+		spAnimationState_apply(state, skeleton);
+		spSkeleton_updateWorldTransform(skeleton);
 	}
 }
 
