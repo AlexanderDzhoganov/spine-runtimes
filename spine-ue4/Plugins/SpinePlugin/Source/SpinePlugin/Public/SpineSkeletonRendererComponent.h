@@ -8,24 +8,19 @@
 #include "SpineSkeletonRendererComponent.generated.h"
 
 
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Spine), meta=(BlueprintSpawnableComponent) )
 class SPINEPLUGIN_API USpineSkeletonRendererComponent : public UProceduralMeshComponent
 {
 	GENERATED_BODY()
 
-public:
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
-	USpineSkeletonComponent* skeleton;
-
-	// Sets default values for this component's properties
+public:	
 	USpineSkeletonRendererComponent(const FObjectInitializer& ObjectInitializer);
-
-	// Called when the game starts
+	
 	virtual void BeginPlay() override;
-	
-	// Called every frame
-	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
-
 		
-	
+	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;	
+
+protected:
+	UPROPERTY()
+	USpineSkeletonComponent* skeleton;
 };

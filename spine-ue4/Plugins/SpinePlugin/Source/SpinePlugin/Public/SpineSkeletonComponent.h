@@ -6,7 +6,7 @@
 #include "SpineSkeletonComponent.generated.h"
 
 class USpineAtlasAsset;
-UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
+UCLASS( ClassGroup=(Spine), meta=(BlueprintSpawnableComponent) )
 class SPINEPLUGIN_API USpineSkeletonComponent : public UActorComponent
 {
 	GENERATED_BODY()
@@ -17,22 +17,22 @@ public:
     
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = Spine)
     USpineSkeletonDataAsset* skeletonData;
-    
-    void Reload ();
+
+	spAnimationStateData* stateData;
+	spAnimationState* state;
+	spSkeleton* skeleton;
     	
 	USpineSkeletonComponent();
 	
 	virtual void BeginPlay() override;
 		
-	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;
+	virtual void TickComponent( float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction ) override;	
 
-#if WITH_EDITOR
-    virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
-#endif
-    
+	virtual void BeginDestroy () override;	
+
 protected:
-    spAnimationStateData* stateData;
-    spAnimationState* state;
-    spSkeleton* skeleton;
-	
+	void DisposeState();	
+
+	USpineAtlasAsset* lastAtlas = nullptr;
+	USpineSkeletonDataAsset* lastData = nullptr;
 };
